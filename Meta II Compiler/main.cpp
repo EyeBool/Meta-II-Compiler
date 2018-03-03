@@ -1,23 +1,11 @@
-#include "Utilities.h"
+#include "IOUtilities.h"
+#include "MetaII.h"
+
 #include <iostream>
 
-void initialize() {
-	readNextCharacter();
-}
-
-void expression() {
-	getNumber();
-	print("read: ");
-	printCurrentNumber();
-	printLine(" <- number");
-}
-
-
 int main() {
-	initialize();
-	expression();
+	program();
 
 	getchar();
-
 	return 0;
 }

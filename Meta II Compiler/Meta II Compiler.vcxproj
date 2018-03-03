@@ -117,11 +117,11 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MetaII.cpp" />
-    <ClCompile Include="Utilities.cpp" />
+    <ClCompile Include="IOUtilities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MetaII.h" />
-    <ClInclude Include="Utilities.h" />
+    <ClInclude Include="IOUtilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

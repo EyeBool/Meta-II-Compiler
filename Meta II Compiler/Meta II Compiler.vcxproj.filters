@@ -18,18 +18,18 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities.cpp">
+    <ClCompile Include="MetaII.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MetaII.cpp">
+    <ClCompile Include="IOUtilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Utilities.h">
+    <ClInclude Include="MetaII.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MetaII.h">
+    <ClInclude Include="IOUtilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

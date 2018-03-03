@@ -1,13 +1,13 @@
-#ifndef UTILITIES_H
-#define UTILITIES_H
+#ifndef IOUTILITIES_H
+#define IOUTILITIES_H
 
 #include <cstdlib>
 #include <iostream>
 #include <string>
 
-static char currentCharacter;
-static std::string currentIndentifier;
-static double currentNumber;
+// initialize library
+
+void initialize();
 
 // error logging
 
@@ -21,15 +21,29 @@ void logMissingItemErrorMessageAndAbortProgram(const std::string& missingItem);
 
 char readNextCharacter();
 
+char readCurrentCharacter();
+
+char peekFollowingCharacter();
+
 void matchAndDiscardCharacter(char character);
 
-void discardWhitespace();
+void matchAndDiscardSequenceOfCharacters(const std::string& sequence);
+
+void discardWhitespaceAndReadNextCharacter();
 
 void matchAndDiscardComment();
 
-std::string getIdentifier();
+std::string readNextIdentifier();
 
-double getNumber();
+std::string readCurrentIdentifier();
+
+std::string readNextString();
+
+std::string readCurrentString();
+
+double readNextNumber();
+
+double readCurrentNumber();
 
 // printing output
 
