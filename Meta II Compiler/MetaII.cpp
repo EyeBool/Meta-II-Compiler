@@ -16,21 +16,21 @@ void out1() {
 		switch (readCurrentCharacter()) {
 		case '1':
 			matchAndDiscardCharacter('1');
-			printLine("GN1");
+			printInstruction("GN1");
 			break;
 		case '2':
 			matchAndDiscardCharacter('2');
-			printLine("GN2");
+			printInstruction("GN2");
 			break;
 		default:
-			printLine("CI");
+			printInstruction("CI");
 		}
 		break;
 
 	case '\'':
 		readNextString();
 		discardWhitespaceAndReadNextCharacter();
-		printLine("CL " + readCurrentString());
+		printInstruction("CL " + readCurrentString());
 		break;
 
 	default:
@@ -52,14 +52,14 @@ void output() {
 	case 'L':
 		matchAndDiscardSequenceOfCharacters("LABEL");
 		discardWhitespaceAndReadNextCharacter();
-		printLine("LB");
+		printInstruction("LB");
 		out1();
 		break;
 	default:
 		logMissingItemErrorMessageAndAbortProgram(".OUT or .LABEL");
 	}
 
-	printLine("OUT");
+	printInstruction("OUT");
 }
 
 void ex3() {
@@ -72,22 +72,22 @@ void ex3() {
 		case 'E':
 			matchAndDiscardSequenceOfCharacters("EMPTY");
 			discardWhitespaceAndReadNextCharacter();
-			printLine("SET");
+			printInstruction("SET");
 			break;
 		case 'I':
 			matchAndDiscardSequenceOfCharacters("ID");
 			discardWhitespaceAndReadNextCharacter();
-			printLine("ID");
+			printInstruction("ID");
 			break;
 		case 'N':
 			matchAndDiscardSequenceOfCharacters("NUMBER");
 			discardWhitespaceAndReadNextCharacter();
-			printLine("NUM");
+			printInstruction("NUM");
 			break;
 		case 'S':
 			matchAndDiscardSequenceOfCharacters("STRING");
 			discardWhitespaceAndReadNextCharacter();
-			printLine("STR");
+			printInstruction("STR");
 			break;
 		default:
 			abortProgram("unknown symbol");
@@ -103,19 +103,19 @@ void ex3() {
 		label = generateNewLabel();
 		printLabel(label);
 		ex3();
-		printLine("BT " + label);
-		printLine("SET");
+		printInstruction("BT " + label);
+		printInstruction("SET");
 		break;
 	case '\'':
 		readNextString();
 		discardWhitespaceAndReadNextCharacter();
-		printLine("TST " + readCurrentString());
+		printInstruction("TST " + readCurrentString());
 		break;
 	default:
 		if (isalpha(readCurrentCharacter())) {
 			readNextIdentifier();
 			discardWhitespaceAndReadNextCharacter();
-			printLine("CLL " + readCurrentIdentifier());
+			printInstruction("CLL " + readCurrentIdentifier());
 		}
 		else {
 			logMissingItemErrorMessageAndAbortProgram("identifier or string or symbol (not .OUT nor .LABEL) or $ or (");
@@ -138,7 +138,7 @@ void ex2() {
 		case 'N':
 		case 'S':
 			ex3();
-			printLine("BF " + label);
+			printInstruction("BF " + label);
 			break;
 		default:
 			logMissingItemErrorMessageAndAbortProgram("symbol");
@@ -148,12 +148,12 @@ void ex2() {
 	case '(':
 	case '$':
 		ex3();
-		printLine("BF " + label);
+		printInstruction("BF " + label);
 		break;
 	default:
 		if (isalpha(readCurrentCharacter())) {
 			ex3();
-			printLine("BF " + label);
+			printInstruction("BF " + label);
 		}
 		else
 			logMissingItemErrorMessageAndAbortProgram("statement");
@@ -185,7 +185,7 @@ void ex2() {
 			case 'N':
 			case 'S':
 				ex3();
-				printLine("BE");
+				printInstruction("BE");
 				break;
 			default:
 				logMissingItemErrorMessageAndAbortProgram("symbol or .,");
@@ -195,12 +195,12 @@ void ex2() {
 		case '(':
 		case '$':
 			ex3();
-			printLine("BE");
+			printInstruction("BE");
 			break;
 		default:
 			if (isalpha(currentCharacter)) {
 				ex3();
-				printLine("BE");
+				printInstruction("BE");
 			}
 			else
 				logMissingItemErrorMessageAndAbortProgram("statement");
@@ -219,7 +219,7 @@ void ex1() {
 
 	while (readCurrentCharacter() == '/') {
 		matchAndDiscardCharacter('/');
-		printLine("BT " + label);
+		printInstruction("BT " + label);
 		ex2();
 	}
 
@@ -234,7 +234,7 @@ void st() {
 	ex1();
 	matchAndDiscardSequenceOfCharacters(".,");
 	discardWhitespaceAndReadNextCharacter();
-	printLine("R");
+	printInstruction("R");
 }
 
 void program() {
@@ -244,12 +244,12 @@ void program() {
 	discardWhitespaceAndReadNextCharacter();
 	readNextIdentifier();
 	discardWhitespaceAndReadNextCharacter();
-	printLine("ADR " + readCurrentIdentifier());
+	printInstruction("ADR " + readCurrentIdentifier());
 
 	while (isalpha(readCurrentCharacter()))
 		st();
 
 	matchAndDiscardTerminalSequenceOfCharacters(".END");
 
-	printLine("END");
+	printInstruction("END");
 }

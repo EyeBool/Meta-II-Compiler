@@ -175,5 +175,10 @@ void printLine(const std::string& line) {
 }
 
 void printLabel(const std::string& label) {
-	std::cout << label << '\n';
+	printLine(label);
+}
+
+void printInstruction(const std::string& instruction) {
+	print("\t");
+	printLine(instruction);
 }

@@ -53,4 +53,6 @@ void printLine(const std::string& line);
 
 void printLabel(const std::string& label);
 
+void printInstruction(const std::string& instruction);
+
 #endif
