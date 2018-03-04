@@ -2,7 +2,7 @@
 #include "MetaII.h"
 
 int main() {
-	program();
+	compile();
 
 	return 0;
 }

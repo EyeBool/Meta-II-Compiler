@@ -3,11 +3,28 @@
 
 #include <string>
 
+
+void out1();
+
+void output();
+
+void ex3();
+
+void ex2();
+
+void ex1();
+
+void st();
+
+// utility functions
+
 std::string generateNewLabel() {
 	static char currentLabelIndex = 0;
 
 	return "L" + std::to_string(currentLabelIndex++);
 }
+
+// implementation
 
 void out1() {
 	switch (readCurrentCharacter()) {
@@ -237,7 +254,8 @@ void st() {
 	printInstruction("R");
 }
 
-void program() {
+// program
+void compile() {
 	initialize();
 
 	matchAndDiscardSequenceOfCharacters(".SYNTAX");

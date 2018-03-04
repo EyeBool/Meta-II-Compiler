@@ -5,7 +5,6 @@ static char followingCharacter;
 
 static std::string currentIdentifier;
 static std::string currentString;
-static double currentNumber;
 
 // initialize library
 
@@ -28,7 +27,7 @@ void logErrorMessage(const std::string& message) {
 
 void abortProgram(const std::string& message) {
 	logErrorMessage(message);
-	abort();
+	exit(EXIT_FAILURE);
 }
 
 void logMissingItemErrorMessageAndAbortProgram(const std::string& missingItem) {
@@ -141,26 +140,6 @@ std::string readNextString() {
 
 std::string readCurrentString() {
 	return currentString;
-}
-
-double readNextNumber() {
-	if (!isdigit(currentCharacter) && currentCharacter != '.')
-		logMissingItemErrorMessageAndAbortProgram("number");
-
-	std::string number;
-	
-	do {
-		number.append(1, currentCharacter);
-		readNextCharacter();
-	} while (isdigit(currentCharacter) || currentCharacter == '.');
-
-	currentNumber = atof(number.c_str());
-
-	return currentNumber;
-}
-
-double readCurrentNumber() {
-	return currentNumber;
 }
 
 // printing output

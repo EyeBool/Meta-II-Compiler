@@ -41,10 +41,6 @@ std::string readNextString();
 
 std::string readCurrentString();
 
-double readNextNumber();
-
-double readCurrentNumber();
-
 // printing output
 
 void print(const std::string& str);
