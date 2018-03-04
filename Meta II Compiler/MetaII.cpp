@@ -29,6 +29,7 @@ void out1() {
 
 	case '\'':
 		readNextString();
+		discardWhitespaceAndReadNextCharacter();
 		printLine("CL " + readCurrentString());
 		break;
 
@@ -50,6 +51,7 @@ void output() {
 		break;
 	case 'L':
 		matchAndDiscardSequenceOfCharacters("LABEL");
+		discardWhitespaceAndReadNextCharacter();
 		printLine("LB");
 		out1();
 		break;
@@ -69,21 +71,26 @@ void ex3() {
 		switch (readCurrentCharacter()) {
 		case 'E':
 			matchAndDiscardSequenceOfCharacters("EMPTY");
+			discardWhitespaceAndReadNextCharacter();
 			printLine("SET");
 			break;
 		case 'I':
 			matchAndDiscardSequenceOfCharacters("ID");
+			discardWhitespaceAndReadNextCharacter();
 			printLine("ID");
 			break;
 		case 'N':
 			matchAndDiscardSequenceOfCharacters("NUMBER");
+			discardWhitespaceAndReadNextCharacter();
 			printLine("NUM");
 			break;
 		case 'S':
 			matchAndDiscardSequenceOfCharacters("STRING");
+			discardWhitespaceAndReadNextCharacter();
 			printLine("STR");
+			break;
 		default:
-			logErrorMessage("unknown symbol");
+			abortProgram("unknown symbol");
 		}
 		break;
 	case '(':
@@ -94,18 +101,20 @@ void ex3() {
 	case '$':
 		matchAndDiscardCharacter('$');
 		label = generateNewLabel();
-		printLine("LABEL: " + label);
+		printLabel(label);
 		ex3();
 		printLine("BT " + label);
 		printLine("SET");
 		break;
 	case '\'':
 		readNextString();
+		discardWhitespaceAndReadNextCharacter();
 		printLine("TST " + readCurrentString());
 		break;
 	default:
 		if (isalpha(readCurrentCharacter())) {
 			readNextIdentifier();
+			discardWhitespaceAndReadNextCharacter();
 			printLine("CLL " + readCurrentIdentifier());
 		}
 		else {
@@ -200,7 +209,7 @@ void ex2() {
 		currentCharacter = readCurrentCharacter();
 	}
 
-	printLine("LABEL: " + label);
+	printLabel(label);
 }
 
 void ex1() {
@@ -214,12 +223,13 @@ void ex1() {
 		ex2();
 	}
 
-	printLine("LABEL: " + label);
+	printLabel(label);
 }
 
 void st() {
 	readNextIdentifier();
-	printLine("LABEL: " + readCurrentIdentifier());
+	discardWhitespaceAndReadNextCharacter();
+	printLabel(readCurrentIdentifier());
 	matchAndDiscardCharacter('=');
 	ex1();
 	matchAndDiscardSequenceOfCharacters(".,");
@@ -231,12 +241,15 @@ void program() {
 	initialize();
 
 	matchAndDiscardSequenceOfCharacters(".SYNTAX");
+	discardWhitespaceAndReadNextCharacter();
 	readNextIdentifier();
+	discardWhitespaceAndReadNextCharacter();
 	printLine("ADR " + readCurrentIdentifier());
 
 	while (isalpha(readCurrentCharacter()))
 		st();
 
-	matchAndDiscardSequenceOfCharacters(".END");
+	matchAndDiscardTerminalSequenceOfCharacters(".END");
+
 	printLine("END");
 }

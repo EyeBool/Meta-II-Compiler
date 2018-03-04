@@ -23,7 +23,7 @@ void initialize() {
 // error logging
 
 void logErrorMessage(const std::string& message) {
-	std::cout << "Error: " << message << "." << std::endl;
+	std::cerr << "Error: " << message << ".\n";
 }
 
 void abortProgram(const std::string& message) {
@@ -60,8 +60,23 @@ void matchAndDiscardSequenceOfCharacters(const std::string& sequence) {
 			readNextCharacter();
 		}
 	}
+}
 
-	discardWhitespaceAndReadNextCharacter();
+void matchAndDiscardTerminalSequenceOfCharacters(const std::string& terminalSequence) {
+	if (terminalSequence.empty())
+		return;
+
+	if(currentCharacter != terminalSequence[0])
+		logMissingItemErrorMessageAndAbortProgram("terminal sequence \"" + terminalSequence + "\"");
+
+	for (unsigned int i = 1; i < terminalSequence.length(); i++) {
+		if (followingCharacter != terminalSequence[i]) {
+			logMissingItemErrorMessageAndAbortProgram("sequence \"" + terminalSequence + "\"");
+		}
+		else if(i != terminalSequence.length() - 1) {
+			followingCharacter = getchar();
+		}
+	}
 }
 
 void discardWhitespaceAndReadNextCharacter() {
@@ -69,23 +84,12 @@ void discardWhitespaceAndReadNextCharacter() {
 		readNextCharacter();
 }
 
-void matchAndDiscardComment() {
-	if (currentCharacter != '#') {
-		logMissingItemErrorMessageAndAbortProgram("'#'");
-	}
-	else {
-		do {
-			readNextCharacter();
-		} while (currentCharacter != '\n' && currentCharacter != '\r' && currentCharacter != EOF);
-	}
-
-	discardWhitespaceAndReadNextCharacter();
-}
-
 char readNextCharacter() {
 	currentCharacter = followingCharacter;
-	if(followingCharacter != EOF)
+	if (followingCharacter != EOF)
 		followingCharacter = getchar();
+	else
+		abortProgram("EOF reached");
 	return currentCharacter;
 }
 
@@ -107,8 +111,6 @@ std::string readNextIdentifier() {
 	while (isalnum(readNextCharacter())) {
 		currentIdentifier.append(1, currentCharacter);
 	}
-
-	discardWhitespaceAndReadNextCharacter();
 
 	return currentIdentifier;
 }
@@ -134,8 +136,6 @@ std::string readNextString() {
 	matchAndDiscardCharacter('\'');
 	currentString.append(1, '\'');
 
-	discardWhitespaceAndReadNextCharacter();
-
 	return currentString;
 }
 
@@ -156,8 +156,6 @@ double readNextNumber() {
 
 	currentNumber = atof(number.c_str());
 
-	discardWhitespaceAndReadNextCharacter();
-
 	return currentNumber;
 }
 
@@ -171,15 +169,11 @@ void print(const std::string& str) {
 	std::cout << str;
 }
 
-void printCurrentIdentifier() {
-	std::cout << currentIdentifier;
-}
-
-void printCurrentNumber() {
-	std::cout << currentNumber;
-}
-
 void printLine(const std::string& line) {
 	print(line);
 	print("\n");
+}
+
+void printLabel(const std::string& label) {
+	std::cout << label << '\n';
 }

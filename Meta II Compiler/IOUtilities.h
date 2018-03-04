@@ -29,9 +29,9 @@ void matchAndDiscardCharacter(char character);
 
 void matchAndDiscardSequenceOfCharacters(const std::string& sequence);
 
-void discardWhitespaceAndReadNextCharacter();
+void matchAndDiscardTerminalSequenceOfCharacters(const std::string& terminalSequence);
 
-void matchAndDiscardComment();
+void discardWhitespaceAndReadNextCharacter();
 
 std::string readNextIdentifier();
 
@@ -49,10 +49,8 @@ double readCurrentNumber();
 
 void print(const std::string& str);
 
-void printCurrentIdentifier();
-
-void printCurrentNumber();
-
 void printLine(const std::string& line);
+
+void printLabel(const std::string& label);
 
 #endif
